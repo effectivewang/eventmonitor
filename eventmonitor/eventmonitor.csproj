@@ -10,10 +10,25 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EventMonitor</RootNamespace>
     <AssemblyName>EventMonitor</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,7 +49,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net35-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -46,21 +76,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleEventViewer.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="EventQueue.cs" />
-    <Compile Include="EventQuerier.cs" />
-    <Compile Include="EventType.cs" />
-    <Compile Include="EventViewer.cs" />
+    <Compile Include="AppConfig.cs" />
+    <Compile Include="Compability\CompabilityPolicy.cs" />
+    <Compile Include="Viewer\ConsoleEventViewer.cs" />
+    <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\EventQueue.cs" />
+    <Compile Include="ExceptionHelper.cs" />
+    <Compile Include="Querier\EventQuerier.cs" />
+    <Compile Include="Event\EventType.cs" />
+    <Compile Include="Event\EventViewer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Querier\ActionCenterQuerier.cs" />
-    <Compile Include="Querier\InstalledSoftwareQuerier.cs" />
-    <Compile Include="Querier\PathQuerier.cs" />
-    <Compile Include="Querier\QueryHelper.cs" />
+    <Compile Include="Querier\SecurityCenterHealthQuerier.cs" />
+    <Compile Include="Querier\Registry\InstalledSoftwareQuerier.cs" />
+    <Compile Include="Querier\WMI\HotFixQuerier.cs" />
+    <Compile Include="Querier\WMI\QueryHelper.cs" />
+    <Compile Include="Native\SecurityCenter\WSC_SECURITY_PROVIDER.cs" />
+    <Compile Include="Native\SecurityCenter\WSC_SECURITY_PROVIDER_HEALTH.cs" />
+    <Compile Include="Native\SecurityCenter\WscNativeHelper.cs" />
+    <Compile Include="Querier\WMI\ServerFeatureQuerier.cs" />
+    <Compile Include="Querier\WMI\LastRestoreStatusQuerier.cs" />
+    <Compile Include="Querier\WMI\SystemRestoreQuerier.cs" />
+    <Compile Include="Querier\WMI\Win32ProductQuerier.cs" />
+    <Compile Include="Querier\WMI\WMIEventQuerier.cs" />
+    <Compile Include="Event\WMIEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
