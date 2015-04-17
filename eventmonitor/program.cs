@@ -9,10 +9,22 @@ using EventMonitor.Querier.WMI;
 using System.ComponentModel;
 using System.Reflection;
 using EventMonitor.Viewer;
+using EventMonitor.Querier.API;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace EventMonitor {
     class Program {
         static void Main(string[] args) {
+            RunConsole();
+        }
+
+        private static void RunApplication() {
+            Application.EnableVisualStyles();
+            Application.Run(new MainForm());
+        }
+
+        private static void RunConsole() {
             for (byte i = 0; i < Byte.MaxValue; i++) {
                 EventType type = DisplaySelection();
 
@@ -25,7 +37,6 @@ namespace EventMonitor {
                 Console.WriteLine();
             }
         }
-
         private static EventType DisplaySelection() {
             Console.WriteLine("Please select following option (example: 1): ");
             Array array = Enum.GetValues(typeof(EventType));
@@ -65,6 +76,8 @@ namespace EventMonitor {
                 register = new InstalledSoftwareQuerier(globalQueue);
             else if (type == EventType.Win32Product)
                 register = new Win32ProductQuerier(globalQueue);
+            else if (type == EventType.MsiEnumProducts)
+                register = new InstallerQuerier(globalQueue);
             else if (type == EventType.HoxFix)
                 register = new HotFixQuerier(globalQueue);
             else if (type == EventType.SecurityCenter)
@@ -73,12 +86,21 @@ namespace EventMonitor {
                 register = new SystemRestoreQuerier(globalQueue);
             else if (type == EventType.LastRestoreStatus)
                 register = new LastRestoreStatusQuerier(globalQueue);
-            else if (type == EventType.ServerFeature)
-                register = new ServerFeatureQuerier(globalQueue);
+            else if (type == EventType.Firewall)
+                register = new FirewallQuerier(globalQueue);
+            else if (type == EventType.CustomWMIQuery)
+                register = CreateCustomWMIQuerier(globalQueue);
             else
                 throw new ArgumentOutOfRangeException();
 
             register.ExecuteQuery();
+        }
+
+        private static EventQuerier CreateCustomWMIQuerier(EventQueue globalQueue) {
+            Console.Write("Query String: ");
+            String queryString = Console.ReadLine();
+
+            return new CustomWMIQuery(globalQueue, queryString);
         }
     }
 }

@@ -12,19 +12,25 @@ namespace EventMonitor
         /// Unknown
         /// </summary>
         Unknown = 0,
-        [Description("All softwares installed on machine, read from registry")]
-        InstalledSoftware = 1,
+        [Description("All softwares read from registry")]
+        InstalledSoftware,
         [Description("Softwares installed by curent user and time-consuming opeartion")]
-        Win32Product = 2,
+        Win32Product,
+        [Description("MsiEnumProducts with windows installer")]
+        MsiEnumProducts,
         [Description("Security center components' status")]
-        SecurityCenter = 3,
+        SecurityCenter,
         [Description("HotFixes")]
-        HoxFix = 4,
+        HoxFix,
         [Description("System restore points")]
-        SystemRestore = 5,
+        SystemRestore,
         [Description("Last time restore status")]
-        LastRestoreStatus = 6,
-        [Description("Features installed on server")]
-        ServerFeature = 7
+        LastRestoreStatus,
+        [Description("Firewall setting")]
+        Firewall,
+        [Description("Server features installed on server")]
+        ServerFeature,
+        [Description("Custom WMI Query (eg. SELECT * FROM Win32_Product)")]
+        CustomWMIQuery
     }
 }

@@ -28,7 +28,7 @@ namespace EventMonitor {
         }
 
         public void Query() {
-            this.Query();
+            this.ExecuteQuery();
 
             foreach (EventQuerier child in Children) {
                 child.Query();
@@ -37,6 +37,10 @@ namespace EventMonitor {
 
         protected void Enqueue(String message) {
             Queue.Enqueue(new Event(Type, message));
+        }
+
+        protected void Enqueue(String messageFormat, params object[] args) {
+            Enqueue(String.Format(messageFormat, args));
         }
 
         public abstract void ExecuteQuery();

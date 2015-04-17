@@ -12,7 +12,7 @@ namespace EventMonitor.Querier.WMI {
     /// Reference: https://msdn.microsoft.com/en-us/library/aa394378(v=vs.85).aspx
     /// </remarks>
     class Win32ProductQuerier : WMIEventQuerier {
-        protected override string[] Attributes { get { return new string[] { "Caption" }; } }
+        protected override string[] Attributes { get { return new string[] { "IdentifyingNumber", "Caption" }; } }
         public Win32ProductQuerier(EventQueue queue)
             : base(queue, EventType.Win32Product) {
         }

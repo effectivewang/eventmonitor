@@ -11,7 +11,7 @@ namespace EventMonitor.Querier.WMI {
         }
 
         protected void RunQuery(String queryString) {
-            RunQuery(null, queryString);
+            ManagementObjectCollection collection = RunQuery(null, queryString);
         }
 
         protected ManagementObjectCollection RunQuery(String scope, String queryString) {

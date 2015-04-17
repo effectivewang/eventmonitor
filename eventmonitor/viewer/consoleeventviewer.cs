@@ -16,6 +16,7 @@ namespace EventMonitor.Viewer
 
         public void View(EventType type) {
             int total = queue.Count;
+            Console.WriteLine(String.Format("Total Event Number: {0}", total));
             for (int i = 0; i < total; i++ )
             {
                 Event e = queue.Dequeue();
